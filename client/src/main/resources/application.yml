@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: config_client
+  cloud:
+    config:
+      label: latest
+
+server:
+  port: 8083
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
