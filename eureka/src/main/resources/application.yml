@@ -26,14 +26,14 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://app_service_searcher:8084/eureka/
+      defaultZone: http://app_service_searcher:8085/eureka/,http://app_store_inverted_index:8086/eureka/
 
 ---
 
 spring:
-  profiles: service_searcher
+  profiles: searcher
   application:
-    name: service_indexer
+    name: service_searcher
 server:
   port: 8085
 eureka:
@@ -43,4 +43,21 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://app_service_indexer:8085/eureka/
+      defaultZone: http://app_service_indexer:8084/eureka/,http://app_store_inverted_index:8086/eureka/
+
+---
+
+spring:
+  profiles: store_invert
+  application:
+    name: store_inverted_index
+server:
+  port: 8086
+eureka:
+  instance:
+    hostname: app_store_inverted_index
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://app_service_indexer:8084/eureka/, http://app_service_searcher:8085/eureka/

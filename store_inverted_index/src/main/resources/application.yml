@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: store_inverted_index
+
+
+server:
+  port: 8086
+
+mongodb:
+  host: localhost
+  port: 27018
+  db: reverseindex
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
