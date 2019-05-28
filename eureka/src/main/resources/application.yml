@@ -26,7 +26,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://app_service_searcher:8085/eureka/,http://app_store_inverted_index:8086/eureka/
+      defaultZone: http://app_service_searcher:8085/eureka/,http://app_store_inverted_index:8086/eureka/,http://app_store_original_data:8087/eureka/
 
 ---
 
@@ -43,7 +43,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://app_service_indexer:8084/eureka/,http://app_store_inverted_index:8086/eureka/
+      defaultZone: http://app_service_indexer:8084/eureka/,http://app_store_inverted_index:8086/eureka/,http://app_store_original_data:8087/eureka/
 
 ---
 
@@ -60,4 +60,21 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://app_service_indexer:8084/eureka/, http://app_service_searcher:8085/eureka/
+      defaultZone: http://app_service_indexer:8084/eureka/,http://app_service_searcher:8085/eureka/,http://app_store_original_data:8087/eureka/
+
+---
+
+spring:
+  profiles: store_original
+  application:
+    name: store_original_data
+server:
+  port: 8087
+eureka:
+  instance:
+    hostname: app_store_original_data
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://app_service_indexer:8084/eureka/,http://app_service_searcher:8085/eureka/,http://app_store_inverted_index:8086/eureka/
