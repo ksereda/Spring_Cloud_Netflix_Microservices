@@ -1,18 +1,17 @@
-package com.example.feignclient;
+package com.example.service_indexer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.scheduling.annotation.EnableAsync;
 
-@SpringBootApplication
 @EnableFeignClients
-@EnableDiscoveryClient
-public class FeignClientApplication {
+@EnableAsync
+@SpringBootApplication
+public class ServiceIndexerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FeignClientApplication.class, args);
+		SpringApplication.run(ServiceIndexerApplication.class, args);
 	}
 
 }
-
