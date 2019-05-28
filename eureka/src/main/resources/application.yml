@@ -1,0 +1,46 @@
+spring:
+  profiles: default
+server:
+  port: 8761
+eureka:
+  instance:
+        hostname: http://localhost:8761/eureka/
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+---
+
+spring:
+  profiles: indexer
+  application:
+    name: service_indexer
+server:
+  port: 8084
+eureka:
+  instance:
+    hostname: app_service_indexer
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://app_service_searcher:8084/eureka/
+
+---
+
+spring:
+  profiles: service_searcher
+  application:
+    name: service_indexer
+server:
+  port: 8085
+eureka:
+  instance:
+    hostname: app_service_searcher
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://app_service_indexer:8085/eureka/
