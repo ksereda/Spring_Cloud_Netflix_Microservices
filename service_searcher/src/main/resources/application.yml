@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: service_searcher
+  data:
+    mongodb:
+      database: reverseindex
+      host: localhost
+      port: 27018
+
+server:
+  port: 8085
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
