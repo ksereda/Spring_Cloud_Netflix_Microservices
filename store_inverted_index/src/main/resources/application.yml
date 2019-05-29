@@ -2,7 +2,6 @@ spring:
   application:
     name: store_inverted_index
 
-
 server:
   port: 8086
 
@@ -14,4 +13,4 @@ mongodb:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://my-eureka-server.com:8761/eureka/

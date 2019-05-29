@@ -1,9 +1,6 @@
 package com.example.store_original_data.entity;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.annotation.Generated;
 
 @Document(collection = "texts")
 public class Text {
@@ -31,5 +28,4 @@ public class Text {
     public Text(String content) {
         this.content = content;
     }
-
 }

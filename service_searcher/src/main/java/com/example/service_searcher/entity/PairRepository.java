@@ -1,11 +1,12 @@
 package com.example.service_searcher.entity;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
 @Repository
-public interface PairRepository extends MongoRepository<ReverseIndexPair, String> {
+public interface PairRepository extends ReactiveMongoRepository<ReverseIndexPair, String> {
 
-    ReverseIndexPair findByWord(final String word);
+    Mono<ReverseIndexPair> findByWord(final String word);
 
 }

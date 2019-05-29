@@ -1,8 +1,10 @@
 package com.example.service_indexer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -12,15 +14,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
+@Slf4j
 public class TextSplitter {
 
-    @Autowired
-    private StoreOriginalFeign storeOriginal;
+//    @Autowired
+//    private StoreOriginalFeign storeOriginal;
 
     @Autowired
     private InverseIndexSaver inverseIndexSaver;
 
-    @Value("${words.blacklist}")
+    @Autowired
+    private StoreOriginalWebClient storeOriginalWebClient;
+
+    @Value("${wordsblacklist}")
     public String[] blackListRaw;
 
     private Set<String> blackList;
@@ -31,13 +37,13 @@ public class TextSplitter {
     }
 
 
-    public Integer process(String body) {
-        StoreOriginalFeign.SaverResponse storeResponse = storeOriginal.saveOriginalText(body);
-        Integer documentId = storeResponse.getId();
-        System.out.println("DocumentId: " + documentId);
-        List<Pair> invertedIndex = invertText(body, documentId);
-        System.out.println("Found " + invertedIndex.size() + " words");
-        inverseIndexSaver.storeReverseIndex(invertedIndex);
+    public Mono<Integer> process(String body) {
+
+        Mono<Integer> documentId = storeOriginalWebClient.saveOriginalText(body).flatMap(s -> {
+            List<Pair> invertedIndex = invertText(body, s);
+            inverseIndexSaver.storeReverseIndex(invertedIndex);
+            return Mono.just(s);
+        });
         return documentId;
     }
 
@@ -48,7 +54,7 @@ public class TextSplitter {
 
         List<String> list = Stream.of(words)
                 .map(String::toLowerCase)
-                .filter(p -> ! blackList.contains(p))
+                .filter(p -> !blackList.contains(p))
                 .collect(Collectors.toList());
 
         return new HashSet<>(list)

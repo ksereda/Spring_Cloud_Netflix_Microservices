@@ -1,88 +1,86 @@
-#spring:
-#  application:
-#    name: service_indexer
-#
-#server:
-#  port: 8084
-#
-#eureka:
-#  client:
-#    serviceUrl:
-##      defaultZone: http://localhost:8761/eureka/
-#      defaultZone: http://my-eureka-server.com:8761/eureka/
-
-
----
-
-feign.client.config.default.connectTimeout: 160000000
-feign.client.config.default.readTimeout: 160000000
-
----
-
-eureka:
-  instance:
-    appname: service_indexer
-  client:
-    fetchRegistry: true
-    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
-      defaultZone: http://app_service_indexer:8084/eureka/
+spring:
+  application:
+    name: service_indexer
+  cloud:
+    config:
+      label: latest
 
 server:
   port: 8084
 
----
-
-spring:
-  profiles: service_indexer-replica_01
 eureka:
-  instance:
-    appname: ABC-service_indexer
   client:
-    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://app_service_indexer:8084/eureka/
-server:
-  port: 8001
+#      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://my-eureka-server.com:8761/eureka/
 
----
 
-spring:
-  profiles: service_indexer-replica_02
-eureka:
-  instance:
-    appname: service_indexer
-  client:
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://app_service_indexer:8084/eureka/
-server:
-  port: 8002
+feign.client.config.default.connectTimeout: 160000000
+feign.client.config.default.readTimeout: 160000000
 
----
 
-spring:
-  profiles: service_indexer-replica_03
-eureka:
-  instance:
-    appname: service_indexer
-  client:
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://app_service_indexer:8084/eureka/
-server:
-  port: 8003
 
----
-
-spring:
-  profiles: service_indexer-replica_04
-eureka:
-  instance:
-    appname: service_indexer
-  client:
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://app_service_indexer:8084/eureka/
-server:
-  port: 8004
+#eureka:
+#  instance:
+#    appname: service_indexer
+#  client:
+#    fetchRegistry: true
+#    serviceUrl:
+##      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: http://app_service_indexer:8084/eureka/
+#
+#---
+#
+#spring:
+#  profiles: service_indexer-replica_01
+#eureka:
+#  instance:
+#    appname: service_indexer
+#  client:
+#    fetchRegistry: true
+#    serviceUrl:
+#      defaultZone: http://app_service_indexer:8084/eureka/
+#server:
+#  port: 8001
+#
+#---
+#
+#spring:
+#  profiles: service_indexer-replica_02
+#eureka:
+#  instance:
+#    appname: service_indexer
+#  client:
+#    fetchRegistry: true
+#    serviceUrl:
+#      defaultZone: http://app_service_indexer:8084/eureka/
+#server:
+#  port: 8002
+#
+#---
+#
+#spring:
+#  profiles: service_indexer-replica_03
+#eureka:
+#  instance:
+#    appname: service_indexer
+#  client:
+#    fetchRegistry: true
+#    serviceUrl:
+#      defaultZone: http://app_service_indexer:8084/eureka/
+#server:
+#  port: 8003
+#
+#---
+#
+#spring:
+#  profiles: service_indexer-replica_04
+#eureka:
+#  instance:
+#    appname: service_indexer
+#  client:
+#    fetchRegistry: true
+#    serviceUrl:
+#      defaultZone: http://app_service_indexer:8084/eureka/
+#server:
+#  port: 8004

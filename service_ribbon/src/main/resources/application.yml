@@ -5,17 +5,27 @@ spring:
 server:
   port: 5555
 
+# Configure for Ribbon:
+#ping-server:
+#  ribbon:
+#    eureka:
+#      enabled: false # Disable default ping
+#    listOfServers: localhost:8001,localhost:8002,localhost:8003,localhost:8004
+#    ServerListRefreshInterval: 15000
+#
+---
 
-ping-server:
+# Configure for Ribbon:
   ribbon:
     eureka:
-      enabled: false # Disable Default Ping
-    listOfServers: localhost:8000,localhost:8001,localhost:8002,,localhost:8003
-    ServerListRefreshInterval: 15000
+      enabled: false
+  service_ribbon:
+    ribbon:
+      listOfServers: localhost:9092,localhost:9999
+      ServerListRefreshInterval: 15000
 
-  # -- Configure Discovery Client (Eureka Client).
-  # Configure this application to known "Service Registration".
 
+# -- Configure Discovery Client (Eureka Client):
 eureka:
   instance:
     appname: service_ribbon

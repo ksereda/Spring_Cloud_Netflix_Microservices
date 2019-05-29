@@ -9,12 +9,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
-import ru.java.mentor.storeinvertedindex.entity.SimplePair;
-import ru.java.mentor.storeinvertedindex.entity.ReverseIndexPair;
+import reactor.core.publisher.Mono;
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -47,8 +45,7 @@ public class MongoInteract {
                 .collect(Collectors.toList()).size();
     }
 
-
-    public Integer addReverseIndexElement(SimplePair simplePair) {
+    public Mono<Integer> addReverseIndexElement(SimplePair simplePair) {
         if (isWordNew(simplePair.getWord())) {
             mongoOps.insert(new ReverseIndexPair(simplePair));
         } else {

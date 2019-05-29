@@ -11,7 +11,7 @@ public interface StoreOriginalFeign {
     @RequestMapping(method = RequestMethod.POST, value="/text/")
     SaverResponse saveOriginalText(@RequestBody String text);
 
-    class SaverResponse {
+    public class SaverResponse {
         public Integer getId() {
             return id;
         }

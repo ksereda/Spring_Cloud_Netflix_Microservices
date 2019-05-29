@@ -33,4 +33,5 @@ public class SequenceDaoImpl implements SequenceDao {
 
         return seqId.getSeq();
     }
+
 }

@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.java.mentor.storeinvertedindex.entity.SimplePair;
+import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
 public class RevertIndexController {
-
     @PostMapping("/reverseindex")
     public Integer saveReverseIndex(@RequestBody List<SimplePair> reverseIndex) {
         return mongoInteract.addReverseIndexMany(reverseIndex);
@@ -22,7 +21,7 @@ public class RevertIndexController {
     private MongoInteract mongoInteract;
 
     @RequestMapping("/addone/{word}/{docId}")
-    public Integer addOne(@PathVariable String word, @PathVariable Integer docId) {
+    public Mono<Integer> addOne(@PathVariable String word, @PathVariable Mono<Integer> docId) {
         return mongoInteract.addReverseIndexElement(new SimplePair(word, docId));
     }
 

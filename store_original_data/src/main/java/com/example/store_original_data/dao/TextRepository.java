@@ -1,16 +1,14 @@
 package com.example.store_original_data.dao;
 
 import com.example.store_original_data.entity.Text;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Mono;
 
 @Repository
-public interface TextRepository extends MongoRepository<Text, Integer> {
+public interface TextRepository extends ReactiveMongoRepository<Text, Integer> {
 
-    Optional<Text> findById(final Integer id);
-    List<Text> findAll();
-    Text insert(final Text text);
+    Mono<Text> findById(final Integer id);
+    Mono insert(final Text text);
 
 }

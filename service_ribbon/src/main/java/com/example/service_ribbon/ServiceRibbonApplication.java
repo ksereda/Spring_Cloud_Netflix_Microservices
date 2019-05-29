@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 
-@RibbonClient(name = "ping-a-server", configuration = RibbonConfiguration.class)
+@RibbonClient(name = "service_ribbon", configuration = RibbonConfiguration.class)
 @EnableDiscoveryClient
 @SpringBootApplication
 public class ServiceRibbonApplication {
