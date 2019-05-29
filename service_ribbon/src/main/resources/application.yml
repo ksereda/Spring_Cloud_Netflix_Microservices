@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: service_ribbon
+
+server:
+  port: 5555
+
+
+ping-server:
+  ribbon:
+    eureka:
+      enabled: false # Disable Default Ping
+    listOfServers: localhost:8000,localhost:8001,localhost:8002,,localhost:8003
+    ServerListRefreshInterval: 15000
+
+  # -- Configure Discovery Client (Eureka Client).
+  # Configure this application to known "Service Registration".
+
+eureka:
+  instance:
+    appname: service_ribbon
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://app_service_indexer:8084/eureka/
