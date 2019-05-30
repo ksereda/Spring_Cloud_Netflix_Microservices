@@ -1,4 +1,4 @@
-package com.example.service_indexer;
+package com.example.ftp_bucket_service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +22,18 @@ public class MainController {
         return "<a href='showAllServiceIds'>Show All Service Ids</a>";
     }
 
-    // get all services
     @ResponseBody
     @RequestMapping(value = "/showAllServiceIds", method = RequestMethod.GET)
     public String showAllServiceIds() {
 
+        // Get All Service ids
         List<String> serviceIds = this.discoveryClient.getServices();
 
         if (serviceIds == null || serviceIds.isEmpty()) {
             return "No services found!";
         }
-        String html = "<h3>Service Ids:</h3>";
+
+        String html = "<h3>Service ids:</h3>";
 
         for (String serviceId : serviceIds) {
             html += "<br><a href='showService?serviceId=" + serviceId + "'>" + serviceId + "</a>";
@@ -41,12 +42,11 @@ public class MainController {
         return html;
     }
 
-    // get Url, host and port
     @ResponseBody
     @RequestMapping(value = "/showService", method = RequestMethod.GET)
     public String showFirstService(@RequestParam(defaultValue = "") String serviceId) {
 
-        // Need eureka.client.fetchRegistry=true in property file !
+        // Need enable parameter:  eureka.client.fetchRegistry=true
         List<ServiceInstance> instances = this.discoveryClient.getInstances(serviceId);
 
         if (instances == null || instances.isEmpty()) {
@@ -64,11 +64,11 @@ public class MainController {
         return html;
     }
 
-    // A REST method, to call from another service (service_ribbon)
+    // This is method, to call from another service
     @ResponseBody
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello() {
-        return "<html>Hello from service_indexer</html>";
+        return "<html>Hello from 'FTP Bucket Service' :)</html>";
     }
 
 }

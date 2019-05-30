@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: ftp_bucket_service
+  cloud:
+    config:
+      label: latest
+
+---
+
+# apply to ALL profiles:
+eureka:
+  instance:
+    appname: ftp_bucket_service  #This is a instance of "ftp_bucket_service"
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://my-eureka-server-zone1.com:8762/eureka/
+
+
+server:
+  port: 8090
+
+---
+
+spring:
+  profiles: ftp_bucket_service-replica_01
+eureka:
+  instance:
+    appname: ftp_bucket_service
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://my-eureka-server-zone1.com:8762/eureka/
+server:
+  port: 8091
+
+---
+
+spring:
+  profiles: ftp_bucket_service-replica_02
+eureka:
+  instance:
+    appname: ftp_bucket_service
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://my-eureka-server-zone1.com:8762/eureka/
+server:
+  port: 8092
+
+---
+
+spring:
+  profiles: ftp_bucket_service-replica_03
+eureka:
+  instance:
+    appname: ftp_bucket_service
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://my-eureka-server-zone1.com:8762/eureka/
+server:
+  port: 8093
+
+---
+
+spring:
+  profiles: ftp_bucket_service-replica_04
+eureka:
+  instance:
+    appname: ftp_bucket_service
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://my-eureka-server-zone1.com:8762/eureka/
+server:
+  port: 8094
