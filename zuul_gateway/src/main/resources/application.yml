@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: api_gateway
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://my-eureka-server.com:8761/eureka/
+
+server:
+  port: 8880
+
+# Only "text-service" and "search-service" are used
+zuul:
+  routes:
+    employeeUI:
+      serviceId: service_searcher
+    text-service:
+      path: /text-service/**
+      serviceId: service_indexer
+    search-service:
+      path: /search-service/**
+      serviceId: service_searcher
+  host:
+    socket-timeout-millis: 30000
