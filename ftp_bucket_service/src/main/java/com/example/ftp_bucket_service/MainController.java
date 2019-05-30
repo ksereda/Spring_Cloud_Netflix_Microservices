@@ -46,6 +46,7 @@ public class MainController {
     @RequestMapping(value = "/showService", method = RequestMethod.GET)
     public String showFirstService(@RequestParam(defaultValue = "") String serviceId) {
 
+        // Get information about instance, port, host
         // Need enable parameter:  eureka.client.fetchRegistry=true
         List<ServiceInstance> instances = this.discoveryClient.getInstances(serviceId);
 
