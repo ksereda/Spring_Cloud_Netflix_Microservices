@@ -162,6 +162,50 @@ Eureka использует протокол, который требует, ч�
 
 - регистрация клиентов может происходить на потерянном сервере
 
+
+### Безопасность
+
+Если вы хотите подключиться по HTTPS, вы можете прописать:
+
+    eureka.instance.[nonSecurePortEnabled]=[false]
+    eureka.instance.[securePortEnabled]=[true]
+    
+В application.yml можно использовать placeholders:
+  
+      eureka:
+        instance:
+          statusPageUrl: https://${eureka.hostname}/info
+          healthCheckUrl: https://${eureka.hostname}/health
+          homePageUrl: https://${eureka.hostname}/
+          
+
+### Проверка состояния:
+
+После успешной регистрации Eureka всегда объявляет, что приложение находится в состоянии «UP». 
+Это поведение можно изменить, включив проверки работоспособности Eureka, в результате чего статус приложения передается в Eureka.
+
+    eureka:
+      client:
+        healthcheck:
+          enabled: true
+          
+
+### Работы клиентов в других зонах:
+
+Если клиенты Eureka находятся в нескольких зонах, можно сделать так, чтобы эти клиенты использовали службы в той же зоне, где они сами находятся, прежде чем пытаться использовать службы в другой зоне. 
+Чтобы это настроить, необходимо правильно настроить клиенты.
+
+    # Служба А в Зоне А
+    
+    eureka.instance.metadataMap.zone = zone_A
+    eureka.client.preferSameZoneEureka = true
+    
+    # Служба А в зоне B
+    
+    eureka.instance.metadataMap.zone = zone_B
+    eureka.client.preferSameZoneEureka = true
+
+
 Компания `Netflix` предоставляет нам использование текущей конфигурации по умолчанию "из коробки", но вы также можете написать свою кастомную реализацию:
 
 Клиент: 
@@ -336,6 +380,51 @@ If there are problems in the network, the following problems may arise between t
 - Ping between nodes may fail, and the server will go into self-save mode, protecting its current state.
 
 - client registration can occur on a lost server
+
+
+### Security
+
+If you want to connect via HTTPS, you can register:
+
+        eureka.instance. [nonSecurePortEnabled] = [false]
+        eureka.instance. [securePortEnabled] = [true]
+    
+You can use placeholders in application.yml:
+  
+          eureka:
+            instance:
+              statusPageUrl: https: // $ {eureka.hostname} / info
+              healthCheckUrl: https: // $ {eureka.hostname} / health
+              homePageUrl: https: // $ {eureka.hostname} /
+          
+
+### Status check:
+
+After successful registration, Eureka always announces that the application is in the “UP” state.
+This behavior can be changed by enabling the Eureka health checks, which results in the status of the application being transferred to Eureka.
+
+        eureka:
+          client:
+            healthcheck:
+              enabled: true
+          
+
+### Clients work in other areas:
+
+If Eureka customers are in multiple zones, you can make these clients use services in the same zone where they are located before trying to use services in another zone.
+To set this up, clients need to be properly configured.
+
+        # Service A in Zone A
+        
+        eureka.instance.metadataMap.zone = zone_A
+        eureka.client.preferSameZoneEureka = true
+        
+        # Service A in Zone B
+        
+        eureka.instance.metadataMap.zone = zone_B
+        eureka.client.preferSameZoneEureka = true
+
+
 
 The company `Netflix` provides us with the use of the current default configuration" out of the box ", but you can also write your custom implementation:
 
