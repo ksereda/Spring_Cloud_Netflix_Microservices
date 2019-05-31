@@ -100,6 +100,18 @@ Ribbon Client может использоваться совмесно с Eureka
 - `@LoadBalanced`
 Используется как аннотация маркера, которая указывает на то, что аннотированный ею RestTemplate должен использовать `RibbonLoadBalancerClient` для взаимодействия с вашими другими службами.
 
+Вы можете установить в классе контроллере аннотацию `@LoadBalanced`, используя `RestTemplate`
+
+     @LoadBalanced
+        @Bean
+        RestTemplate getRestTemplate() {
+            return new RestTemplate();
+        }
+    
+        @Autowired
+        RestTemplate restTemplate;
+        
+
 - `@RibbonClient`
 Используется для кастомной настройки Ribbon Client.
 
@@ -337,8 +349,8 @@ _______________
 
 ### ENG
 
-`Ribbon` is a` client-side` balancer. Compared to the traditional, here the requests go directly to the right address.
-`" Out of the box "` it is integrated with the Service Discovery mechanism, which provides a dynamic list of available instances for balancing between them.
+`Ribbon` is a `client-side` balancer. Compared to the traditional, here the requests go directly to the right address.
+`"Out of the box"` it is integrated with the Service Discovery mechanism, which provides a dynamic list of available instances for balancing between them.
 
 Provides:
 
@@ -369,7 +381,7 @@ Balancing on the client side usually sends requests to servers of one zone (Zone
 
 
 `Ribbon` decides how the server will be called (from the list of filtered servers).
-There are several strategies to solve. The default strategy is `" ZoneAwareLoadBalancer "(Servers in the same zone as the client)`.
+There are several strategies to solve. The default strategy is `"ZoneAwareLoadBalancer "(Servers in the same zone as the client)`.
 
 
 - `Filtered list of servers (Filtered List of Servers):`
@@ -392,16 +404,16 @@ Lazy download can be disabled:
         
 Spring Cloud creates a new `ApplicationContext` for each Ribbon Client using` RibbonClientConfiguration`.
 
-Using the annotation `@ RibbonClient` you can take full control of the client by declaring the additional configuration` (on top of RibbonClientConfiguration) `.
+Using the annotation `@RibbonClient` you can take full control of the client by declaring the additional configuration` (on top of RibbonClientConfiguration) `.
 
-    @RibbonClient (name = "ping-server", configuration = RibbonConfiguration.class)
+    @RibbonClient(name = "ping-server", configuration = RibbonConfiguration.class)
     
 We can also specify default settings for all Ribbon Client:
 
-    @RibbonClients (defaultConfiguration = DefaultRibbonConfig.class)
+    @RibbonClients(defaultConfiguration = DefaultRibbonConfig.class)
     
 Also, starting with version 1.2.0, you can customize the configuration through properties.
-Classes defined in properties take precedence over bins defined using the annotation `@ RibbonClient`.
+Classes defined in properties take precedence over bins defined using the annotation `@RibbonClient`.
 
 
 Ribbon Client can be used jointly with Eureka: in this case, it will receive a list of all services registered with Eureka.
@@ -416,19 +428,31 @@ You can disable the Ribbon Client from Eureka:
 In this case, specify the annotation `@RibbonClient (name =" myService ")` and in the file application.properties
 
         myservice.ribbon.eureka.enabled = false
-        myservice.ribbon.listOfServers = http: // localhost: 5000, http: // localhost: 50015001
+        myservice.ribbon.listOfServers = http://localhost:5000,http://localhost:50015001
     
 
 ### What is the difference between @RibbonClient and @LoadBalanced annotations?
 
-- `@ LoadBalanced`
+- `@LoadBalanced`
 Used as a marker annotation, which indicates that the RestTemplate annotated by it should use `RibbonLoadBalancerClient` to interact with your other services.
 
-- `@ RibbonClient`
+You can set the `@LoadBalanced` annotation in the controller class using `RestTemplate`
+
+     @LoadBalanced
+     @Bean
+     RestTemplate getRestTemplate () {
+         return new RestTemplate ();
+     }
+        
+     @Autowired
+     RestTemplate restTemplate;
+
+
+- `@RibbonClient`
 Used for customizing Ribbon Client.
 
-If you use Service Discovery, then the annotation `@ RibbonClient` you do not need, because it is included by default.
-But if you want to customize the settings for a specific client, you must use `@ RibbonClient`.
+If you use Service Discovery, then the annotation `@RibbonClient` you do not need, because it is included by default.
+But if you want to customize the settings for a specific client, you must use `@RibbonClient`.
     
 
 ### Main Ribbon components:
@@ -459,7 +483,7 @@ They can be installed programmatically in the code or through the file propertie
 
 The format of the property record in the properties file is as follows:
 
-    <clientName>. <nameSpace>. <propertyName> = <value>
+    <clientName>.<nameSpace>.<propertyName> = <value>
 
 You can also load configuration settings from a file. To do this, call the API `ConfigurationManager.loadPropertiesFromResources()`
     
@@ -474,10 +498,10 @@ This will set the default ReadTimeout property for all clients.
     
 To set properties on your own, you need to create an instance of `DefaultClientConfigImpl`, as follows:
 
-1) you must call `DefaultClientConfigImpl.getClientConfigWithDefaultValues ​​(String clientName)` to load the default values ​​and any properties that are already defined in the Configuration in Archaius.
+1) you must call `DefaultClientConfigImpl.getClientConfigWithDefaultValues(String clientName)` to load the default values ​​and any properties that are already defined in the Configuration in Archaius.
 (`Archaius` is a configuration management library dynamically while running).
 
-2) set the necessary properties by calling the API `DefaultClientConfigImpl.setProperty ()`.
+2) set the necessary properties by calling the API `DefaultClientConfigImpl.setProperty()`.
 
 3) pass this instance along with the client name to the appropriate API `ClientFactory`.
 
@@ -485,7 +509,7 @@ It is desirable that the properties be defined `in a different namespace`, for e
 
     myservice.hello.ReadTimeout = 1000
     
-To do this, extend the `DefaultClientConfigImpl` class and override the` getNameSpace () `method
+To do this, extend the `DefaultClientConfigImpl` class and override the `getNameSpace() `method
 
         public class MyClientConfig extends DefaultClientConfigImpl {
             
@@ -502,14 +526,14 @@ To do this, extend the `DefaultClientConfigImpl` class and override the` getName
     
 Use the `ClientFactory` API to create a client:
 
-    MyClient client = (MyClient) ClientFactory.createNamedClient ("myservice", MyClientConfig.class);
+    MyClient client = (MyClient) ClientFactory.createNamedClient("myservice", MyClientConfig.class);
     
  
 To implement your own client with load balancing support, you must extend `AbstractLoadBalancerAwareClient` and override some methods.
 
 Then specify in the properties file:
 
-    <clientName>. <nameSpace> .ClientClassName = <Your implementation class name>
+    <clientName>.<nameSpace>.ClientClassName = <Your implementation class name>
     
     
 ### Some of the properties
@@ -601,15 +625,15 @@ After the instance is disabled, it will remain in this state for `30 seconds` be
 
 Serial connection failure threshold in order to set the server to "off" (default 3)
 
-    myservice.loadbalancer. <clientName> .connectionFailureCountThreshold
+    myservice.loadbalancer.<clientName>.connectionFailureCountThreshold
     
 The maximum period during which an instance can remain in the "disabled" state regardless of an exponential increase in the delay time (default is 30)
 
-    myservice.loadbalancer. <clientName> .circuitTripMaxTimeoutSeconds
+    myservice.loadbalancer.<clientName>.circuitTripMaxTimeoutSeconds
     
 The threshold number of simultaneous connections to the server (default Integer.MAX_INT)
 
-    <clientName>. <clientConfigNameSpace> .ActiveConnectionsLimit
+    <clientName>.<clientConfigNameSpace>.ActiveConnectionsLimit
     
     
 ### Main modules
@@ -640,16 +664,16 @@ Then go to URL
 and in the Eureka dashboard you should see your running ftp_bucket_service.
 Go to
 
-    http: // localhost: 5555
+    http://localhost:5555
     
 and click on the testCallFTPService link.
 You should see a list of available ftp_bucket_service reps.
 
     Instances for Service Id:
 
-    Instance: http: // tran-pc: 8091
-    Instance: http: // tran-pc: 8092
-    Instance: http: // tran-pc: 8093
-    Instance: http: // tran-pc: 8094
+    Instance: http://tran-pc:8091
+    Instance: http://tran-pc:8092
+    Instance: http://tran-pc:8093
+    Instance: http://tran-pc:8094
     
 When you refresh the page, you can see how the Load Balancer chooses the most appropriate one.
