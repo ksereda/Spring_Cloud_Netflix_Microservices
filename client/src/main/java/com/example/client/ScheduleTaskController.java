@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Component
 @RefreshScope
 @RestController
-public class ScheduleTask {
+public class ScheduleTaskController {
 
     @Value("${myname}")
     private String name;
