@@ -1,29 +1,35 @@
 ## Spring Cloud: Feign Client
 
-Netflix provides `Feign` as an abstraction over REST-based calls, by which microservices can communicate with each other, but developers don't have to bother about REST internal details.
+Feign — простой и гибкий http-клиент, который нативно интегрирован с Ribbon
+Feign использует интерфейсы аннотированные @FeignClient чтобы генерировать API запросы и мапить ответ на Java классы.
+Он шлет http запросы другим сервисам.
 
-`Feign` is a simple and flexible http-client that is natively integrated with the `Ribbon`.
-`Feign` uses annotated `@FeignClient` interfaces to generate API requests and build responses to Java classes.
+Его особенность в том, что нам не нужно знать где и на каком порту находится какой-то сервис.
+Мы просто говорим Feign клиенту, иди к "Васе" и получи у него всех пользователей. Далее Feign обращается к Eureka Server и спрашивает где находится "Вася".
+ 
+Если "Вася" регистрировался в Eureka Server, то Eureka будет всё знать о Васе (где он находится, на каком порту, его URL и т.д.)
 
-```
-@SpringBootApplication
-@EnableFeignClients
-@EnableDiscoveryClient
-public class FeignClientApplication {
+Вам нужно только описать, как получить доступ к удаленной службе API, указав такие детали, как URL, тело запроса и ответа, принятые заголовки и т. д. Клиент Feign позаботится о деталях реализации.
 
-	public static void main(String[] args) {
-		SpringApplication.run(FeignClientApplication.class, args);
-	}
+Netflix предоставляет Feign в качестве абстракции для вызовов на основе REST, благодаря которым микросервисы могут связываться друг с другом, но разработчикам не нужно беспокоиться о внутренних деталях REST.
 
-}
-```
+Нужно указать аннотацию @EnableFeignClients над основным классом
 
-You only need to describe how to access the remote API service, specifying details such as the URL, request and response body, accepted headers, etc. The `Feign` client will take care of the implementation details.
+    @SpringBootApplication
+    @EnableFeignClients
+    @EnableDiscoveryClient
+    public class FeignClientApplication {
+    
+        public static void main(String[] args) {
+            SpringApplication.run(FeignClientApplication.class, args);
+        }
+    
+    }
 
-You should also specify additional settings (port, name and eureka address) in the application.yml file:
+На интерфейс ставим аннотацию @FeignClient(name = "Вася") и указываем имя того сервиса, который нам нужен (в пояснении я описывал сервис под названием "Вася"). В том сервисе будет выполняться некая логика по работе с базой и настройки коннекта к базе, или получение всех пользователей и т.д.
 
-```
-port: 8081
-name: feign_client
-defaultZone: http://localhost:8761/eureka/
-```
+Feign - это первый шаг в реализации архитектуры микросервиса при помощи инструментов Netflix. 
+В реальности слабо связанных сервисов очень важно чтобы общение между ними было легковесным и простым для отладки. 
+Поэтому для этой цели зачастую используют REST, хотя для некоторых случаев это может быть не лучшим выбором. 
+Для упрощения связи по REST мы и используем Feign: при помощи него мы будем поглощать сообщения от других сервисов и автоматически превращать их в Java объекты.
+
