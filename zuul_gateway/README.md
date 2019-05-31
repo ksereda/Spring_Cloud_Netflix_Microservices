@@ -363,8 +363,8 @@ ________
 ### ENG
 
 
-`Zuul` is a JVM-based router and server load balancer from` Netflix`.
-Used with the annotation `@ EnableZuulProxy`.
+`Zuul` is a JVM-based router and server load balancer from `Netflix`.
+Used with the annotation `@EnableZuulProxy`.
 Zuul will automatically select the server list in Eureka.
 It works well in conjunction with Hystrix, Ribbon and Turbine.
 
@@ -444,11 +444,11 @@ Updated filters are read, dynamically compiled into a working server, and `Zuul`
 
 ### load balancing
 
-In `Ribbon`, the default uses` ZoneAwareLoadBalancer` for `Zuul`.
+In `Ribbon`, the default uses `ZoneAwareLoadBalancer` for `Zuul`.
 The load balancer will keep statistics for each zone and will remove the zone if the failure rate exceeds the adjustable threshold.
 
 ### Connection Pool
-`Zuul` uses its own connection pool using the` Netty` client. This is done to reduce context switching between threads and ensure operability.
+`Zuul` uses its own connection pool using the `Netty` client. This is done to reduce context switching between threads and ensure operability.
 As a result, the entire request is executed in the same thread.
 
 ### Repeat request
@@ -464,7 +464,7 @@ Repeat request will not be sent, in the case of:
 Starting from version 2.0, `Zuul` supports sending push messages - sending messages from the server to the client (Push connections differ from regular HTTP requests in that they are permanent and long-lasting). It supports two protocols, `WebSockets` and` Server Sent Events (SSE) `.
 
 After successful authentication, `Zuul` registers each authenticated connection based on the client's identifier so that it can be found later to send a push message to this particular client.
-You can implement your Authorization `(extends abstract class PushAuthHandler and implement its doAuth ())` method.
+You can implement your Authorization `(extends abstract class PushAuthHandler andi mplement its doAuth())` method.
 
 Push server using `PushConnectionRegistry` maintains a local registry in the memory of all clients connected to it. To find a specific client, first look at the push server to which the specified client is connected, in this global push registry.
 
@@ -493,7 +493,7 @@ Where,
 
 For example:
 
-`Spring Cloud Netflix` as a filter takes any` @ Bean`, which extends `ZuulFilter` and is available in the context of the application.
+`Spring Cloud Netflix` as a filter takes any` @Bean`, which extends `ZuulFilter` and is available in the context of the application.
 
         public class MyTestFilter extends ZuulFilter {
         
@@ -584,7 +584,7 @@ A more detailed configuration is possible for different query processing scenari
               path: / **
               url: https://legacy.example.com
           
-If you use the `@ EnableZuulProxy` annotation, you can use proxy paths to download files. While the files are small, it will work without problems.
+If you use the `@EnableZuulProxy` annotation, you can use proxy paths to download files. While the files are small, it will work without problems.
 
 If the proxy route goes through `Ribbon`, then very large files require increased timeout parameters:
 
@@ -599,14 +599,14 @@ To force an external request code:
           forceOriginalQueryStringEncoding: true
       
 When processing an incoming request, the request URI is decoded before it is mapped to routes.
-If your URI contains an encoded character `" / "`, then there may be problems.
+If your URI contains an encoded character `"/"`, then there may be problems.
 To use the original request URI:
 
         zuul:
           decodeUrl: false
       
-When using the annotation `@ EnableZuulServer`` (instead of @EnableZuulProxy) `, you can start the server` Zuul` without a proxy.
-Any beans that will be added to the application (such as ZuulFilter) will be installed automatically (as is the case with `@ EnableZuulProxy`), but without adding any proxy filters.
+When using the annotation `@EnableZuulServer (instead of @EnableZuulProxy) `, you can start the server `Zuul` without a proxy.
+Any beans that will be added to the application (such as ZuulFilter) will be installed automatically (as is the case with `@EnableZuulProxy`), but without adding any proxy filters.
 Therefore, the “serviceId” and “url” `settings will be ignored.
 
 You can also set the wait time for requests sent via `Zuul`:
@@ -619,14 +619,14 @@ You can also set the wait time for requests sent via `Zuul`:
           ReadTimeout: 60000
           ConnectTimeout: 60000
     
-### What is the difference between `@ EnableZuulProxy` and` @ EnableZuulServer`?
+### What is the difference between `@EnableZuulProxy` and` @EnableZuulServer`?
 
-`@ EnableZuulProxy` is an advanced` @ EnableZuulServer`. In other words, `@ EnableZuulProxy` contains all filters set by` @ EnableZuulServer`.
+`@EnableZuulProxy` is an advanced` @EnableZuulServer`. In other words, `@EnableZuulProxy` contains all filters set by` @EnableZuulServer`.
 
 
 ### EnableZuulServer
 
-The annotation `@ EnableZuulServer` creates` SimpleRouteLocator`, which loads route definitions from the Spring Boot configuration files.
+The annotation `@EnableZuulServer` creates `SimpleRouteLocator`, which loads route definitions from the Spring Boot configuration files.
 
 Filters:
 - `ServletDetectionFilter`: Determines whether a request is being executed through the Spring Dispatcher.
@@ -647,10 +647,10 @@ Consider an example of settings from this application.
             searchIndexFile:
               serviceId: service_searcher
             text-service:
-              path: / text-service / **
+              path: /text-service/ **
               serviceId: service_indexer
             search-service:
-              path: / search-service / **
+              path: /search-service/ **
               serviceId: service_searcher
           host:
             socket-timeout-millis: 30000
@@ -664,14 +664,14 @@ Pay attention to the parameter
                 employeeUI:
                   serviceId: service_searcher
                   
-Here we say that if any request comes to the gateway in the form `/ searchIndexFile`, then it is redirected to the` service_searcher` microservice.
+Here we say that if any request comes to the gateway in the form `/searchIndexFile`, then it is redirected to the `service_searcher` microservice.
 those. if you go on
 
-    http: // localhost: 8880 / searchIndexFile / statictics / 1
+    http://localhost:8880/searchIndexFile/statictics/1
      
 you will be redirected to
 
-         http: // localhost: 8085 / statictics / 1
+         http://localhost:8085/statictics/1
          
          # is a service "service_searcher"
      
@@ -692,11 +692,11 @@ Or we can specify that all requests from users beginning with `/ tests` are sent
         zuul:
           routes:
             tests:
-              path: / tests / **
-              url: http: // localhost: 8081 / tests
+              path: /tests/**
+              url:http://localhost:8081/tests
 
 
-Since `Zuul` is a Discovery client, add the` @ EnableDiscoveryClient` annotation (and don’t forget about `@ EnableZuulProxy`) to the main class:
+Since `Zuul` is a Discovery client, add the` @EnableDiscoveryClient` annotation (and don’t forget about `@EnableZuulProxy`) to the main class:
 
         @EnableZuulProxy
         @EnableDiscoveryClient
@@ -714,4 +714,4 @@ At the moment there is a version of `Zuul 2.0`.
 `Zuul 1.0` was built on the basis of Servlet. Such systems are blocking and multithreaded, i.e. they process requests using one stream per connection.
 It takes a thread from the thread pool to perform an I / O operation, and the request thread blocks until the operation is completed.
 But if something goes wrong (network errors, etc.) then the number of active connections and flows increases, the server load also increases and the cluster is overloaded.
-`In version 2.0` a library was added as` Hystrix`. During events, locks are triggered to help maintain system stability.
+`In version 2.0` a library was added as `Hystrix`. During events, locks are triggered to help maintain system stability.
