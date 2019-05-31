@@ -6,7 +6,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://my-eureka-server.com:8761/eureka/
 
 spring:
   jpa.hibernate.ddl-auto: create
