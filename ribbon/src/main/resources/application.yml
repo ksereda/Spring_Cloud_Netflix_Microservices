@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: ribbon
+
+server:
+  port: 5555
+
+# Configure for Ribbon:
+
+ftp_bucket_service:
+  ribbon:
+    eureka:
+      enabled: false # Disable default ping
+    listOfServers: localhost:8090,localhost:8091,localhost:8092,localhost:8093,localhost:8094
+    ServerListRefreshInterval: 15000
+
+# -- Configure Discovery Client (Eureka Client).
+# Configure this application to known "Service Registration".
+
+eureka:
+  instance:
+    appname: ribbon
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://my-eureka-server-zone1.com:8762/eureka
