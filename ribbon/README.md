@@ -209,6 +209,22 @@ Ribbon Client может использоваться совмесно с Eureka
 
     myservice.ribbon.MaxAutoRetries=1
     
+Если вы используете Ribbon с Spring Retry, вы можете управлять функциональностью повтора соединения, настраивая определенные свойства Ribbon. Для этого lj,fdmnt cktle.obt свойства 
+
+    myservice.ribbon.MaxAutoRetries=5
+	myservice.ribbon.MaxAutoRetriesNextServer=5
+	myservice.ribbon.OkToRetryOnAllOperations=true
+
+Для этого необходимо добавить зависимость Spring Retry в проект.
+Когда Spring Retry присутствует, RestTemplates, Feign и Zuul с балансировкой нагрузки автоматически повторяют любые неудачные запросы (если ваша конфигурация позволяет это делать).
+Параметр OkToRetryOnAllOperations - включает повторные запросы POST.
+
+Также можно повторить запросы, когда в ответе возвращаются определенные коды состояния.
+
+	myservice:
+	  ribbon:
+	    retryableStatusCodes: 404,502
+    
 Можно ли повторить все операции для этого клиента
 
     myservice.ribbon.OkToRetryOnAllOperations=true
@@ -541,6 +557,22 @@ Then specify in the properties file:
 Determine the maximum number of attempts on a single server (excluding the first attempt)
 
     myservice.ribbon.MaxAutoRetries = 1
+    
+If you are using Ribbon with Spring Retry, you can control the connection retry functionality by configuring certain Ribbon properties. For this lj, fdmnt cktle.obt properties
+
+    myservice.ribbon.MaxAutoRetries = 5
+	myservice.ribbon.MaxAutoRetriesNextServer = 5
+	myservice.ribbon.OkToRetryOnAllOperations = true
+
+To do this, add a Spring Retry dependency to the project
+When Spring Retry is present, the load-balanced RestTemplates, Feign, and Zuul automatically repeat any failed requests (if your configuration allows it).
+Parameter OkToRetryOnAllOperations - enables repeated POST requests.
+
+You can also repeat requests when certain status codes are returned in the response.
+
+	myservice:
+	ribbon:
+	retryableStatusCodes: 404,502 
     
 Is it possible to repeat all the operations for this client
 
