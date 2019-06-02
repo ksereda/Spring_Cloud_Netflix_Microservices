@@ -15,7 +15,6 @@ ftp_bucket_service:
     ServerListRefreshInterval: 15000
 
 # -- Configure Discovery Client (Eureka Client).
-# Configure this application to known "Service Registration".
 
 eureka:
   instance:

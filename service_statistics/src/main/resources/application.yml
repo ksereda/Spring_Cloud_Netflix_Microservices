@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: service_statistics
+
+server:
+  port: 8079
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+

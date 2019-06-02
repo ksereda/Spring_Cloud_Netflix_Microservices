@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 
-@RibbonClient(name = "ping-server", configuration = RibbonConfiguration.class)
+@RibbonClient(name = "ftp_bucket_service", configuration = RibbonConfiguration.class)
 @EnableEurekaClient
 @SpringBootApplication
 public class RibbonApplication {
