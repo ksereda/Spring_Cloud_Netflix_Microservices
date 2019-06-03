@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 /**
- *  Здесь мы предоставляем запасной класс в аннотации @FeignClient
+ *  Here we provide a spare class in the annotation @FeignClient
  */
 
 @FeignClient(name = "service_statistics", fallback = UsersFallback.class)
