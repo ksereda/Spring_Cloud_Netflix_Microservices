@@ -1,0 +1,12 @@
+# Configuration for example_1
+
+server.port=8076
+
+---
+
+# Configuration for using Feign (example_2)
+
+server.port=8076
+feign.hystrix.enabled=true
+
+---
