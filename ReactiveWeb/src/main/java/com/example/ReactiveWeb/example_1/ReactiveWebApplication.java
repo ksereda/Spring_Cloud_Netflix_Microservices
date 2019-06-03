@@ -1,4 +1,4 @@
-package com.example.ReactiveWeb;
+package com.example.ReactiveWeb.example_1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

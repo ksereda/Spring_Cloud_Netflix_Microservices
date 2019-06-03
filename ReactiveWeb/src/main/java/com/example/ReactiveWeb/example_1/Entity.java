@@ -1,4 +1,4 @@
-package com.example.ReactiveWeb;
+package com.example.ReactiveWeb.example_1;
 
 public class Entity {
 

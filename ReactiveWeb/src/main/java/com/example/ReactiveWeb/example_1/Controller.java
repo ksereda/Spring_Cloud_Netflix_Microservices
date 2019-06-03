@@ -1,4 +1,4 @@
-package com.example.ReactiveWeb;
+package com.example.ReactiveWeb.example_1;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
