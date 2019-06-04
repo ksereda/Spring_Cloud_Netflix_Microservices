@@ -358,6 +358,44 @@ Push сервер при помощи `PushConnectionRegistry` поддержи�
 Но если что-то идет не так (ошибки сети и т.д.) то количество активных соединений и потоков увеличивается, также увеличивается нагрузка на сервер и перегружается кластер.
 `В версии 2.0` была добавлена такая библиотека как `Hystrix`. На время событий срабатывают блокировки чтобы помочь поддерживать стабильность системы.
 
+
+###  Пара интересных моментов
+
+#### Предотвращение Timeout Error
+
+Если на запрос уходит слишком много времени ожидания, то Zuul отклонит его и будут проблемы.
+
+Это можно решить указанием свойства (в миллисекундах) для Ribbon (см Ribbon)
+
+    ribbon.ReadTimeout=10000
+    ribbon.ConnectTimeout  (по умолчанию 1000 миллисекунд)
+    
+Или можете для Zuuk указать следующие свойства
+
+    zuul.host.connect-timeout-millis  (по умолчанию 2000 миллисекунд)
+    zuul.host.socket-timeout-millis   (по умолчанию 10000)
+    zuul.host.max-per-route-connections  - Максимальное количество соединений, которое может быть использовано одним маршрутом (по умолчанию 20)
+    zuul.host.max-total-connections - Максимальное количество общих соединений, которые прокси-сервер может держать открытыми (по умолчанию 200)
+    zuul.host.time-to-live - Время жизни для пула соединений (по умолчанию -1)
+    
+    
+##### Как разрешить доступ к  микросервису только с IP-адреса Zuul API Gateway
+    
+Чтобы предотвратить поступление HTTP-запросов из других источников, отличных от IP-адреса Zuul, необходимо предоставить доступ только с определенного IP-адреса
+Создайте новый конфиг класс, укажите над ним аннотацию @EnableWebSecurity (требуется добавить Spring Security в ваш проект) и укажите в нем тот IP-ддресс, который вам нужен
+
+    @Configuration
+    @EnableWebSecurity
+    public class WebSecurity extends WebSecurityConfigurerAdapter {
+        
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.authorizeRequests()
+              .antMatchers("/**").hasIpAddress("192.168.50.100");
+        }
+        
+    }
+
 ________
 
 ### ENG
@@ -715,3 +753,40 @@ At the moment there is a version of `Zuul 2.0`.
 It takes a thread from the thread pool to perform an I / O operation, and the request thread blocks until the operation is completed.
 But if something goes wrong (network errors, etc.) then the number of active connections and flows increases, the server load also increases and the cluster is overloaded.
 `In version 2.0` a library was added as `Hystrix`. During events, locks are triggered to help maintain system stability.
+
+### A couple of interesting moments.
+
+#### Prevent Timeout Error
+
+If the request takes too much time to wait, Zuul will reject it and there will be problems.
+
+This can be resolved by specifying a property (in milliseconds) for the Ribbon (see Ribbon)
+
+        ribbon.ReadTimeout = 10000
+        ribbon.ConnectTimeout (default 1000 milliseconds)
+        
+Or you can specify the following properties for Zuuk
+
+        zuul.host.connect-timeout-millis (2000 milliseconds by default)
+        zuul.host.socket-timeout-millis (default is 10,000)
+        zuul.host.max-per-route-connections - The maximum number of connections that can be used by a single route (default 20)
+        zuul.host.max-total-connections - The maximum number of common connections that a proxy server can keep open (default 200)
+        zuul.host.time-to-live - Time to live for connection pool (default -1)
+        
+    
+##### How to allow access to microservice only from the IP address of Zuul API Gateway
+    
+To prevent HTTP requests from sources other than the Zuul IP address, you need to provide access only from a specific IP address.
+Create a new config class, point to the @EnableWebSecurity annotation above it (add Spring Security to your project) and specify in it the IP address that you need
+
+        @Configuration
+        @EnableWebSecurity
+        public class WebSecurity extends WebSecurityConfigurerAdapter {
+            
+            @Override
+            protected void configure (HttpSecurity http) throws Exception {
+                http.authorizeRequests ()
+                  .antMatchers ("/ **"). hasIpAddress ("192.168.50.100");
+            }
+            
+        }
