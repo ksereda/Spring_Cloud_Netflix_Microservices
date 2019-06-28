@@ -61,7 +61,7 @@ Eureka Server также известен как Discovery Server.
 
 
 Аннотация `@EnableEurekaClient` сообщает платформе следующее: 
-Что данный сервис является экземпляром какого-то микросервиса и просит зарегистрировать его на сервере Eureka, также хочет узнать другие службы, которые зарегистрированы в Eureka Server.
+- данный сервис является экземпляром какого-то микросервиса и просит зарегистрировать его на сервере Eureka, также хочет узнать другие службы, которые зарегистрированы в Eureka Server.
 
 
 ### Пару слов про понятия, в которых многие путаются.
@@ -280,7 +280,7 @@ and you will see a web interface where you can get all the necessary information
 
 
 Annotation `@ EnableEurekaClient` tells the platform the following:
-That this service is an instance of a microservice and asks to register it on the Eureka server, also wants to find out other services that are registered with the Eureka Server.
+- this service is an instance of a microservice and asks to register it on the Eureka server, also wants to find out other services that are registered with the Eureka Server.
 
 
 ### A few words about concepts in which many are confused.
