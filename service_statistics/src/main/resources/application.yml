@@ -1,6 +1,11 @@
 spring:
   application:
     name: service_statistics
+  datasource:
+    url: jdbc:mysql://localhost:3306/users_database
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
 
 server:
   port: 8079

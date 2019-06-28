@@ -1,4 +1,4 @@
-package com.example.feignclient;
+package com.example.feignclient.example_1;
 
 public class UserModel {
 

@@ -36,7 +36,7 @@
 Поэтому для этой цели зачастую используют `REST`, хотя для некоторых случаев это может быть не лучшим выбором. 
 Для упрощения связи по REST мы и используем Feign: при помощи него мы будем поглощать сообщения от других сервисов и автоматически превращать их в Java объекты.
 
-### Пример
+### Пример 1
 Рассмотрим небольшой и в то же время очень простой пример.
 У нас есть `сервис А` и `сервис B`, которые оба зарегистрированы в `Eureka`. Мы хотим из `сервиса А` вызвать `сервис B` и получить какие-то данные. 
 
@@ -126,7 +126,20 @@
 	 
 	}
 
+______
 
+### Пример 2
+
+Из сервиса `feign-client` мы пытаемся получить данные из базы через сервис `statistic_service`.
+Если сервис `statistic_service` будет в какой-то момент недоступен, то мы получим сообщение о том, что сервис недоступен, а не стандартное сообщение ош ошибке (404).
+Для этого создадим интерфейс для `Feign` и укажем там statistic_service, к которому надо обращаться:
+    
+    @FeignClient(name = "service_statistics", url = "http://localhost:8079/", fallback = Fallback.class)
+    
+и опишем логику.
+Также создадим `Fallback` класс.
+
+`См. example_2.`
 ______
 
 ### ENG
@@ -254,3 +267,19 @@ I also want to add, if you need to use an external web service that is not part 
     public List getStatistic (@PathVariable String id);
     
     }
+
+______
+
+### Example 2
+
+From the `feign-client` service we are trying to get data from the database through the `statistic_service` service.
+If the `statistic_service` service is unavailable at some point, we will receive a message stating that the service is unavailable, and not a standard error message (404).
+To do this, we will create an interface for `Feign` and indicate there `statistic_service`, which should be addressed:
+    
+    
+    @FeignClient (name = "service_statistics", url = "http: // localhost: 8079 /", fallback = Fallback.class)
+    
+and describe the logic.
+Also create a `Fallback` class.
+
+`See example_2.`

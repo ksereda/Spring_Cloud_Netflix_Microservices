@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>All Data</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+
+<style>
+    .alerttext {
+        margin-left: auto;
+        margin-right: auto;
+        width: 35em;
+    }
+
+    #dock {
+        background-color: lightsteelblue;
+        border-radius: 10px;
+        color: white;
+    }
+
+    p {
+        padding: 10px;
+        font-weight:bold;
+        font-size: 19px;
+        text-align: center;
+    }
+
+    .lds-dual-ring {
+        display: inline-block;
+        width: 64px;
+        height: 64px;
+        position: absolute;
+        top: 400px;
+        right: 0;
+        bottom: 0;
+        left: 150px;
+        margin: auto;
+        overflow: auto;
+    }
+    .lds-dual-ring:after {
+        position: center;
+        content: " ";
+        display: block;
+        width: 46px;
+        height: 46px;
+        margin: 1px;
+        border-radius: 50%;
+        border: 5px solid lightsteelblue;
+        border-color: lightsteelblue transparent lightsteelblue transparent;
+        animation: lds-dual-ring 1.2s linear infinite;
+    }
+    @keyframes lds-dual-ring {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<body>
+<div class="container my-2">
+    <h3 th:if="${employees != null}">All Data</h3>
+    <div class="card">
+        <div class="card-body">
+            <div th:switch="${employees}" class="container my-5">
+                <div class="col-md-10">
+                    <h3 th:case="null" id="dock" class="alerttext">
+                        <p>Sorry, service is temporarily unavailable.
+                            <br>Try to repeat after a while</p></h3>
+
+                    <div th:if="${employees == null}">
+                         <div class="lds-dual-ring"></div>
+                    </div>
+
+                    <div th:case="*">
+                        <table class="table table-striped table-responsive-md">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Last Name</th>
+                                <th>Age</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="employee : ${employees}">
+                                <td th:text="${employee.name}"></td>
+                                <td th:text="${employee.lastName}"></td>
+                                <td th:text="${employee.age}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
