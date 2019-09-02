@@ -133,6 +133,7 @@ Hystrix позволяет определить fallback-метод, котор�
 - Здесь используем `RestTemplate` (для разнообразия. В следующем примере попробуем использовать `Feign Client`)
 - Используем аннотацию @HystrixCommand с параметрами дополнительного метода, который будет вызван в случае, если service_user-details будет недоступен
     
+       
         @HystrixCommand(fallbackMethod = "callUserService_Fallback")
     
 У этого метода должна быть одинаковая сигнатура с методом `callUserService` (получения группы и данных пользователей)
@@ -175,7 +176,10 @@ Hystrix также предоставляет дашборд по URL
     
 и вы получите статистику в виде диаграммы.
 
+Посмотрите мой доклад на тему Netflix OSS
 
+    https://github.com/ksereda/Gallery-Service
+    
 _____
 
 ### ENG
@@ -318,14 +322,14 @@ This method should have the same signature with the `callUserService` method (ge
 Now start both services.
 Try calling the `service_user-details` service from the` Hystrix` service
     
-    http: // localhost: 8076 / getGroupDetails / badboy
+    http://localhost:8076/getGroupDetails/badboy
     
 You will see `Sylvester Stallone and Chuck Norris`.
 
 Simulate the denial of service `service_user-details` (problems in the network, service overload, etc.) and disable it
 Try to use the URL again.
     
-    http: // localhost: 8076 / getGroupDetails / badboy
+    http://localhost:8076/getGroupDetails/badboy
     
 It will work out the spare method `callUserService_Fallback`
     
@@ -339,16 +343,20 @@ Other examples will be added here as `example_2, 3, etc`.
 
 Hystrix also provides dashboards by URL.
     
-    http: // localhost: 8077 / hystrix.stream
+    http://localhost:8077/hystrix.stream
     
 There you will see the results of the health check along with all the service calls that are monitored using Hystrix.
 
 Initial dashboard screen by URL
     
-    http: // localhost: 8077 / hystrix
+    http://localhost:8077/hystrix
     
 Add there
     
-    http: // localhost: 8077 / hystrix.stream
+    http://localhost:8077/hystrix.stream
     
 and you will get statistics in the form of a chart.
+
+Check out my Netflix OSS talk
+
+    https://github.com/ksereda/Gallery-Service
